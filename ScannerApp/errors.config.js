@@ -3,7 +3,7 @@ const config = {
 errors : [
     {
         code :'OK',
-        msg : 'Operation war erfolgreich'
+        msg : 'Operation was successful'
     },
     {
         code: 'not found',

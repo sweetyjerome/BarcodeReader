@@ -29,9 +29,17 @@ const App = () => {
   const renderBarcodes = () => (
     <View>{barcodes.map(renderBarcode)}</View>
   )
-  const renderBarcode = ({ data }) => {
+  const renderBarcode = ({ data, format }) => {
     setItem(data)
-    parsedResponse()
+    if(format === 'EAN_13'||format === 'EAN_8'){
+      parsedResponse()
+    }
+    else{
+      Alert.alert(
+        'Currently supports only EAN13 and EAN8 formats. Please try again'
+      )
+    }
+    
   }
   const parsedResponse = () => {
     let lines = scannedData.split(/\r\n|\r|\n/);
