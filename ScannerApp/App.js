@@ -2,9 +2,22 @@ import React from 'react';
 import { StyleSheet, View, Alert } from 'react-native';
 import { RNCamera } from 'react-native-camera';
 import { useState } from 'react';
+import Axios from 'axios';
 
 const App = () => {
   const [barcodes, setBarcodes] = useState([]);
+  const [scannedData, setScannedData] = useState('');
+  const userId= 400000000
+  const item = 978020137962
+
+  useEffect(() => {
+    Axios.get(`http://opengtindb.org/?ean=${item}&cmd=query&queryid=${userId}`)
+    .then(res => {
+      console.log(res)
+    }).catch(err => {
+      console.log(err);
+    })
+  }, []);
 
   const barcodeRecognized = ({ barcodes }) => {
     setBarcodes(barcodes)
