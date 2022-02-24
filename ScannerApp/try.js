@@ -7,35 +7,35 @@ import config from './errors.config';
 
 const App = () => {
   const [barcodes, setBarcodes] = useState([]);
-  const [scannedData, setScannedData] = useState('');
   const [item, setItem] = useState('');
   const errorMessages = config.errors;
-   
-  useEffect(() => {
-    let userId = 400000000;
-    Axios.get(`http://opengtindb.org/?ean=${item}&cmd=query&queryid=${userId}`)
-    .then(res => {
-      setScannedData(res.data)
-    }).catch(err => {
-      console.log(err);
-    })
-  }, [item]);
+
 
   const barcodeRecognized = ({ barcodes }) => {
     //api call and parse inside api call. set parseddata in state var.
     setBarcodes(barcodes)
+    console.log('bacodes set ',barcodes);
   }
 
-  const renderBarcodes = () => (   //copy the return from line 37 here
-    <View>{barcodes.map(renderBarcode)}</View> 
-  )
-  const renderBarcode = ({ data , bounds }) => {
-    setItem(data)     //sets the item value to pass to api call.
-    var displayData = parsedResponse();
-
+  const renderBarcodes = () => {   //copy the return from line 37 here
+    let userId = 400000000;
+    console.log('api data', barcodes.data);
+    Axios.get(`http://opengtindb.org/?ean=${barcodes.data}&cmd=query&queryid=${userId}`)
+    .then(res => {
+        console.log('res', res);
+      var pdtName = parsedResponse(res.data)
+      console.log('pdt name', pdtName);
+      setItem(pdtName)
+    }).catch(err => {
+      console.log(err);
+    })
+    renderBarcode()
+console.log('finished');
+}
+  const renderBarcode = () => {
     //print the description as ovrerlay on the camera.
+    let bounds = barcodes.bounds;
     return(
-      <React.Fragment key ={data + bounds.origin.x}> 
       <View
         style={[
           styles.text,
@@ -46,17 +46,17 @@ const App = () => {
           },
         ]}
       >
-        {displayData ? <Text style={[styles.textBlock]}>{`${displayData}`}</Text> : null}
+        {item ? <Text style={[styles.textBlock]}>{`${item}`}</Text> : null}
         
       </View>
-    </React.Fragment>
     )
   
     
   }
   //to parse the plain text to json object format and returns the name of the product
-  const parsedResponse = () => {  
-    let lines = scannedData.split(/\r\n|\r|\n/);
+  const parsedResponse = (resData) => {  
+    let lines = resData.split(/\r\n|\r|\n/);
+    console.log('liness',lines);
     let paramRegex = /^\s*([\w\.\-\_]+)\s*=\s*(.*?)\s*$/,
         cnt = -1,            //index of the products in . (0 = first product being scanned)
         retVal = {          //object with 2 entries 
@@ -103,6 +103,7 @@ const App = () => {
             'The product name was not found'
         )
       }
+      console.log('ret val',retVal.data[0].name );
       return retVal.data[0].name 
     }
 } 
@@ -117,7 +118,7 @@ const App = () => {
           type = {RNCamera.Constants.Type.back}
           style={styles.scanner}
           onGoogleVisionBarcodesDetected={barcodeRecognized}>
-          {barcodes? renderBarcodes : Alert.alert('Error')}
+          {barcodes? renderBarcodes(barcodes[0]) : Alert.alert('Error')}
         </RNCamera>
       </View>
   )
