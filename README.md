@@ -13,14 +13,18 @@ go inside the project directory ScannerApp:
 
 #### `cd ScannerApp`
 
-install the dependencies for Android:
+Install the dependencies for Android:
 
 #### `npm install`
 
-install the dependencies for IOS:
+Install the dependencies for IOS:
 
 #### `cd ios && pod install`
 
-then run:
+Then run:
 
+1. To start the metro bundler
+#### `npx react-native start` 
+
+2. To run the App
 #### `npx react-native run-android` or `npx react-native run-ios`
