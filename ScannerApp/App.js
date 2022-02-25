@@ -117,7 +117,7 @@ const App = () => {
           type = {RNCamera.Constants.Type.back}
           style={styles.scanner}
           onGoogleVisionBarcodesDetected={barcodeRecognized}>
-          {barcodes? renderBarcodes : Alert.alert('Error')}
+          {barcodes? renderBarcodes : null}
         </RNCamera>
       </View>
   )
