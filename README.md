@@ -23,4 +23,4 @@ install the dependencies for IOS:
 
 then run:
 
-#### `npx react-native run-android` or npx react-native run-ios`
+#### `npx react-native run-android` or #### `npx react-native run-ios`
