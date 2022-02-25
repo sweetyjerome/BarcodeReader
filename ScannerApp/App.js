@@ -22,11 +22,10 @@ const App = () => {
   }, [item]);
 
   const barcodeRecognized = ({ barcodes }) => {
-    //api call and parse inside api call. set parseddata in state var.
     setBarcodes(barcodes)
   }
 
-  const renderBarcodes = () => (   //copy the return from line 37 here
+  const renderBarcodes = () => (   
     <View>{barcodes.map(renderBarcode)}</View> 
   )
   const renderBarcode = ({ data , bounds }) => {
