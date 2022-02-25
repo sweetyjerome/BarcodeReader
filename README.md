@@ -1,6 +1,6 @@
 # BarcodeReader
 
-## Getting Started ScannerApp
+## About ScannerApp
 
 A simple EAN Barcode reader based on React Native. The App shows product information about the scanned barcode from the Open EAN/GTIN Database.
 uses the [react-native-camera library](https://github.com/react-native-camera/react-native-camera/) and uses the API of [opengtindb.org](https://opengtindb.org/api.php)
